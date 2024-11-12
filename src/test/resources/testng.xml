@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Suite" parallel="classes" thread-count="2">
+	<listeners>
+		<listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+	</listeners>
+	<test  name="Appium">
+		<classes>
+			<class name="com.ce.runner.TestCases.UI_ecom_RunTest">
+				<methods>
+					<exclude name="runScenario"/>
+				</methods>
+				<parameter name="udid" value="emulator-5554" />
+				<parameter name="deviceName" value="emulator-5554" />
+			</class>
+
+			<class name="com.ce.runner.TestCases.UI_smoke_RunTest">
+				<methods>
+				<exclude name="runScenario"/>
+				</methods>
+						<parameter name="udid" value="emulator-5556" />
+						<parameter name="deviceName" value="emulator-5556" />
+			</class>
+
+			<class name="com.ce.runner.TestCases.UI_smoke2_RunTest">
+				<methods>
+					<exclude name="runScenario"/>
+				</methods>
+				<parameter name="udid" value="emulator-5556" />
+				<parameter name="deviceName" value="emulator-5556" />
+			</class>
+		</classes>
+	</test>
+
+</suite> <!-- Suite -->
