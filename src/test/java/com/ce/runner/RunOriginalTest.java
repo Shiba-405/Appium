@@ -3,8 +3,7 @@ package com.ce.runner;
 import io.cucumber.testng.CucumberOptions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.runner.JUnitCore;
-import com.ce.runner.RunnerBase;
+import com.ce.base.RunnerBase;
 
 
 @CucumberOptions(
@@ -23,12 +22,5 @@ import com.ce.runner.RunnerBase;
 )
 public class RunOriginalTest extends RunnerBase{
     private static final Logger Log = LogManager.getLogger(RunOriginalTest.class);
-    public static void main(String[] args) {
-        // Add the UniqueTestCounter listener to your test run
-        JUnitCore core = new JUnitCore();
-        core.addListener(new UniqueTestCounter());
 
-        // Run your tests
-        core.run(RunOriginalTest.class);
-    }
 }

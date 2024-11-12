@@ -22,7 +22,6 @@ public class DriverManager {
 
     public void initializeDriver(String udid) throws Exception {
         AppiumDriver driver = null;
-      //  GlobalParams params = new GlobalParams();
 
         if(driver == null){
             try{

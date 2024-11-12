@@ -15,7 +15,7 @@ public class CapabilitiesManager {
     private static final Logger Log = LogManager.getLogger(CapabilitiesManager.class);
 
     public DesiredCapabilities getCaps(String udid) throws IOException {
-      //  GlobalParams params = new GlobalParams();
+
 
         try{
             Log.info("getting capabilities");

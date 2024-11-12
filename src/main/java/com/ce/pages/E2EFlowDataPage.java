@@ -62,6 +62,8 @@ public class E2EFlowDataPage extends FLUtilities {
              XSSFWorkbook workbook = new XSSFWorkbook(file) ;
 
             // Delete existing runner and feature files
+            deleteRunnerFeature(EnumsCommon.RUNNERFILESPATH.getText() + "TestCases/Suite1");
+            deleteRunnerFeature(EnumsCommon.RUNNERFILESPATH.getText() + "TestCases/Suite2");
             deleteRunnerFeature(EnumsCommon.RUNNERFILESPATH.getText() + "TestCases");
             deleteRunnerFeature(EnumsCommon.FEATUREFILESPATH.getText() + "TestCases");
             File jsonFilePath = new File(testDataFile);
@@ -82,6 +84,7 @@ public class E2EFlowDataPage extends FLUtilities {
                 Row headerRow = iterator.next().getSheet().getRow(0);
 
                 // Find the column indexes for specific headers in the header row
+                int suiteNameIndex = findColumnIndex(headerRow, "Suite Name");
                 int featureNameIndex = findColumnIndex(headerRow, "Feature Name");
                 int descriptionIndex = findColumnIndex(headerRow, "Description");
                 int scenarioIndex = findColumnIndex(headerRow, "Scenario");
@@ -94,6 +97,7 @@ public class E2EFlowDataPage extends FLUtilities {
                     String tagNames = "";
                     Row currentRow = iterator.next();
                     // Retrieve cell values from the current row based on the header indexes
+                    String suiteName = getCellValue(currentRow.getCell(suiteNameIndex));
                     String featureName = getCellValue(currentRow.getCell(featureNameIndex));
                     String description = getCellValue(currentRow.getCell(descriptionIndex));
                     String scenario = getCellValue(currentRow.getCell(scenarioIndex));
@@ -103,7 +107,7 @@ public class E2EFlowDataPage extends FLUtilities {
 
                     // Check if the 'Execute' column value is 'yes'
                     if (execute.equalsIgnoreCase("yes")) {
-                        createRunnerFile(testingType, scenario);
+                        createRunnerFile(suiteName, testingType, scenario);
                         switch (testingType) {
                             case "UI":
                                 createUIFeatureFile(featureName, description, scenario, testCaseName, testCaseSheet, testingType, jsonTestData);
@@ -328,19 +332,19 @@ public class E2EFlowDataPage extends FLUtilities {
     /**
      * Create runner file based on module and jurisdiction
      */
-    public void createRunnerFile(String testingType, String scenario) {
+    public void createRunnerFile(String suiteName, String testingType, String scenario) {
         ArrayList<String> lines = new ArrayList<>();
         String line;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(EnumsCommon.RUNNERFILESPATH.getText() + "RunOriginalTest.java"));
             while ((line = reader.readLine()) != null) {
-                line = line.replaceAll("com.ce.runner", "com.ce.runner.TestCases");
+                line = line.replaceAll("com.ce.runner", "com.ce.runner.TestCases."+suiteName);
                 line = line.replaceAll("RunOriginalTest", testingType + "_" + scenario + "_" + "RunTest");
                 line = replaceLine(line, "tags = ", "\t\ttags = \"@" + testingType + "-" + scenario + "\",");
                 lines.add(line);
             }
             reader.close();
-            File tempFile = new File(EnumsCommon.RUNNERFILESPATH.getText() + "TestCases/" + testingType + "_" + scenario + "_" + "RunTest.java");
+            File tempFile = new File(EnumsCommon.RUNNERFILESPATH.getText() + "TestCases/"+suiteName+"/" + testingType + "_" + scenario + "_" + "RunTest.java");
             tempFile.getParentFile().mkdirs();
             FileWriter runnerFile = new FileWriter(tempFile);
             BufferedWriter writer = new BufferedWriter(runnerFile);
