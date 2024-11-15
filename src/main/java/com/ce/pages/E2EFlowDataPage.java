@@ -338,7 +338,11 @@ public class E2EFlowDataPage extends FLUtilities {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(EnumsCommon.RUNNERFILESPATH.getText() + "RunOriginalTest.java"));
             while ((line = reader.readLine()) != null) {
-                line = line.replaceAll("com.ce.runner", "com.ce.runner.TestCases."+suiteName);
+                if(!suiteName.isEmpty()) {
+                    line = line.replaceAll("com.ce.runner", "com.ce.runner.TestCases." + suiteName);
+                } else {
+                    line = line.replaceAll("com.ce.runner", "com.ce.runner.TestCases");
+                }
                 line = line.replaceAll("RunOriginalTest", testingType + "_" + scenario + "_" + "RunTest");
                 line = replaceLine(line, "tags = ", "\t\ttags = \"@" + testingType + "-" + scenario + "\",");
                 lines.add(line);
