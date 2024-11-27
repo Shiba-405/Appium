@@ -1,0 +1,48 @@
+.screen-diff__switchers {
+  margin-bottom: 1em;
+}
+
+.screen-diff__switchers label + label {
+  margin-left: 1em;
+}
+
+.screen-diff__overlay {
+  position: relative;
+  cursor: col-resize;
+}
+
+.screen-diff__container {
+  overflow-x: auto;
+}
+
+.screen-diff__image-over {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: #fff;
+  position: absolute;
+  overflow: hidden;
+  box-shadow: 2px 0 1px -1px #aaa;
+}
+
+.screen-diff-error {
+  color: #fd5a3e;
+}
+.side-nav__brand {
+     background: url('logo.png') no-repeat left center !important;
+     margin-left: 8px;
+     height: 40px;
+     Background-size: contain !important;
+}
+ .side-nav__brand span{
+     display: none
+}
+ .side-nav__brand:after{
+     content: "";
+     width: fit-content;
+     height: auto;
+     margin: 0 auto;
+     block-size: fit-content;
+     font-size: 0.8vw;
+     Margin-left: 8px;
+}
