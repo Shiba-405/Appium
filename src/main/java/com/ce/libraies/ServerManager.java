@@ -40,28 +40,5 @@ public class ServerManager {
         return AppiumDriverLocalService.buildDefaultService();
     }
 
-//    public AppiumDriverLocalService WindowsGetAppiumService() {
-//        GlobalParams params = new GlobalParams();
-//        return AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
-//                .usingAnyFreePort()
-//                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-//                .withLogFile(new File(params.getPlatformName() + "_"
-//                        + params.getDeviceName() + File.separator + "Server.log")));
-//    }
-//
-//    public AppiumDriverLocalService MacGetAppiumService() {
-//        GlobalParams params = new GlobalParams();
-//        HashMap<String, String> environment = new HashMap<String, String>();
-//        environment.put("PATH", "enter_your_path_here" + System.getenv("PATH"));
-//        environment.put("ANDROID_HOME", "enter_your_android_home_path");
-//        environment.put("JAVA_HOME", "enter_your_java_home_path");
-//       return AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
-//                .usingDriverExecutable(new File("/usr/local/bin/node"))
-//                .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
-//                .usingAnyFreePort()
-//                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-//                .withEnvironment(environment)
-//                .withLogFile(new File(params.getPlatformName() + "_"
-//                        + params.getDeviceName() + File.separator + "Server.log")));
-//    }
+
 }

@@ -2,15 +2,16 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 
-<suite name="Suite" parallel="tests" thread-count="2">
+<suite name="Parallel Testing" parallel="tests" thread-count="2">
 	<listeners>
 		<listener class-name="io.qameta.allure.testng.AllureTestNg"/>
 	</listeners>
-	<test name="Test1">
-		<parameter name="udid" value="emulator-5556" />
-		<parameter name="deviceName" value="emulator-5556" />
+	<test name="Device-1">
+		<parameter name="udid" value="emulator-5554" />
+		<parameter name="deviceName" value="emulator-5554" />
 		<packages>
-			<package name="com.ce.runner.TestCases"/>
+			<package name="com.ce.runner.TestCases.Suite1"/>
+			<package name="com.ce.runner.TestCases.Suite2"/>
 		</packages>
 		<classes>
 			<class name="com.ce.runner.TestCases.RunnerBase">
@@ -21,16 +22,18 @@
 		</classes>
 
 	</test>
-	<test name="Test2">
-		<parameter name="udid" value="emulator-5554" />
-		<parameter name="deviceName" value="emulator-5554" />
+	<test name="Device-2">
+		<parameter name="udid" value="emulator-5556" />
+		<parameter name="deviceName" value="emulator-5556" />
 		<packages>
-			<package name="com.ce.runner.TestCases"/>
+			<package name="com.ce.runner.TestCases.Suite1"/>
+			<package name="com.ce.runner.TestCases.Suite2"/>
 		</packages>
 		<classes>
 			<class name="com.ce.runner.TestCases.RunnerBase">
 				<methods>
 					<exclude name="runScenario"/>
+					<exclude name="scenario"/>
 				</methods>
 			</class>
 		</classes>

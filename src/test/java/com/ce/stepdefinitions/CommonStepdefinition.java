@@ -25,6 +25,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 
 public class CommonStepdefinition extends FLUtilities {
 
@@ -38,13 +39,6 @@ public class CommonStepdefinition extends FLUtilities {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(Integer.parseInt(configProperties.getProperty("implicit_wait"))));
         appiumWait  = new WebDriverWait(driver, Duration.ofSeconds(Integer.parseInt(configProperties.getProperty("explicit_wait"))));
 
-    }
-
-    @Given("Open page {string}")
-    public void userIsOnFLLoginPage(String url) {
-        configProperties.setProperty("QA.url", url);
-        System.out.println("url == " + url);
-        openLoginPage(driver, testContext);
     }
 
     @Then("Verify Page Title is {string}")
@@ -70,7 +64,7 @@ public class CommonStepdefinition extends FLUtilities {
 
     @Then("User Clicks element if present {string} {string} having {string} {string}")
     public void clicksElementIfPresent(String fieldName, String wizardType, String locator, String attributeValue) {
-        List<WebElement> elements = elementsByLocator(driver, locator, null, null, attributeValue);
+        List<WebElement> elements = elementsByLocator(driver, locator, attributeValue);
         if(elements.size() > 0) {
             clickElement(driver, elements.get(0));
         }
@@ -103,13 +97,6 @@ public class CommonStepdefinition extends FLUtilities {
         Log.info("TEST CASE {} STARTED", testCaseID);
     }
 
-    @Given("I am on the login screen")
-    public void i_am_on_the_login_screen() {
-        // Write code here that turns the phrase above into concrete actions
-        System.out.println("SSM Successful");
-
-    }
-
     @Then("User Verifies element {string} {string} having {string} {string}")
     public void userVerifiesElementHaving(String fieldName, String wizardType, String locator, String attributeValue) {
         WebElement element = elementByLocator(driver, locator, null, null, attributeValue);
@@ -135,12 +122,11 @@ public class CommonStepdefinition extends FLUtilities {
 
     @Then("User Clicks back Button on Mobile")
     public void userClicksBackButtonOnMobile() {
-        driver.navigate().back();
+        driver.executeScript("mobile: pressKey", Map.ofEntries(Map.entry("keycode", 4)));
     }
 
     @Then("User Accepts alert")
     public void userAcceptsAlert() {
-       // WebDriverWait appiumWait = new WebDriverWait(driver, Duration.ofSeconds(Integer.parseInt(configProperties.getProperty("explicit_wait"))));
        try {
            Alert yes = appiumWait.until(ExpectedConditions.alertIsPresent());
            yes.accept();
@@ -173,7 +159,7 @@ public class CommonStepdefinition extends FLUtilities {
 
     @Then("User Verifies element in List {string} in {string} {string} having {string} {string}")
     public void userVerifiesElementInListInHaving(String expectdData, String fieldName, String wizardType, String locator, String attributeValue) {
-        List<WebElement> elements = elementsByLocator(driver, locator, null, null, attributeValue);
+        List<WebElement> elements = elementsByLocator(driver, locator, attributeValue);
         boolean isPresent = false;
         for (WebElement element : elements){
            if( element.getText().trim().equals(expectdData)){
@@ -182,5 +168,28 @@ public class CommonStepdefinition extends FLUtilities {
             }
         }
         Assert.assertTrue(expectdData+" not present in "+fieldName,isPresent);
+    }
+
+    @Then("User Scroll up by {int} from point x:{int} and y:{int}")
+    public void userScrollUpByFromPointXAndY(int toEnd, int startX, int startY) {
+        scrollLeftWithCoordinates(driver,startX,startY,startX,startY-toEnd);
+    }
+
+    @Then("User Scroll left by {int} from point x:{int} and y:{int}")
+    public void userScrollLeftByFromPointXAndY(int toEnd, int startX, int startY) {
+        scrollLeftWithCoordinates(driver,startX,startY,startX-toEnd,startY);
+
+    }
+
+    @Then("User Taps on Point  x:{int} and y:{int}")
+    public void userTapsOnPointXAndY(int pointX, int pointY) {
+        tapOnPoint(driver,pointX,pointY);
+    }
+
+
+    @Then("User Verifies element by attribute in List {string} in which List having {string} {string} and Element having attribute {string} and value {string}")
+    public void userVerifiesElementByAttributeInList(String fieldName, String locator, String attributeValue, String expAttribute, String expValue) {
+        boolean value =verifyElementAttribute(driver,locator,attributeValue,expAttribute,expValue);
+        Assert.assertTrue("In "+fieldName+" Element "+expValue+" not present", value);
     }
 }

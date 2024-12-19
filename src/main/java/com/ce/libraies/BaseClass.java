@@ -42,35 +42,8 @@ public class BaseClass {
      */
     public void loadConfigData(TestContext testContext) {
         readConfigFile();
-        //  setEnvironment(testContext);
     }
 
-    /**
-     * @param testContext The TestContext class reference
-     * @return The WebDriver instance
-     * <p>
-     * Browser: Value for Browser shall be read from TestContext class. To execute scripts on local system, value for 'execution.type' should be
-     * 'local' in Config.properties file. During CI-CD, execution shall happen on Virtual Machine and name for Virtual Machine shall be picked from
-     * ADO Pipeline
-     * <p>
-     * Implicit Wait: Value for Implicit Wait can be changed from config.properties file.
-     */
-    public AppiumDriver getMobDriver(TestContext testContext,String udid) {
-        try {
-            openMobileApp(udid);
-
-        } catch (Exception e) {
-            Log.error("Loading WebDriver failed ", e);
-            throw new FLException("Loading WebDriver failed >>>> " + e.getMessage());
-        }
-
-        Log.info("Driver Loaded Successfully.");
-        System.out.println("Driver Loaded Successfully.");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(Integer.parseInt(configProperties.getProperty("implicit_wait"))));
-        Log.info("Implicit Wait Set as {} Seconds", configProperties.getProperty("implicit_wait"));
-        testContext.setWait(new WebDriverWait(driver, Duration.ofSeconds(Integer.parseInt(configProperties.getProperty("implicit_wait")))));
-        return driver;
-    }
 
     /**
      * This method reads config.properties file and values shall be saved in key-value pair in 'configProperties' object
@@ -89,89 +62,6 @@ public class BaseClass {
             Log.error("Reading Properties File Failed ", e);
             throw new FLException("Reading Properties File Failed " + e.getMessage());
         }
-    }
-
-    /**
-     * @return ChromeOptions object having different Chrome Browser properties to manipulate.
-     */
-    private ChromeOptions getChromeOptions() {
-        Map<String, Object> preferences = new HashMap<>();
-        preferences.put("autofill.profile_enabled", false);
-        preferences.put("download.prompt_for_download", false);
-        preferences.put("download.extensions_to_open", "applications/pdf");
-        preferences.put("plugins.plugins_disabled", "Chrome PDF Viewer");
-        preferences.put("plugins.always_open_pdf_externally", true);
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setExperimentalOption("prefs", preferences);
-        if (Boolean.parseBoolean(configProperties.getProperty("headlessExecution.switch")))
-            chromeOptions.addArguments("headless", "--disable-gpu", "--window-size=1920,1080", "--ignore-certificate-errors");
-        chromeOptions.addArguments("disable-infobars");
-        chromeOptions.addArguments("--start-maximized");
-        chromeOptions.addArguments("--disable-notifications");
-        chromeOptions.addArguments("--remote-allow-origins=*");
-
-        return chromeOptions;
-    }
-
-    /**
-     * @return FirefoxOptions object having different Firefox Browser properties to manipulate.
-     */
-    private FirefoxOptions getFirefoxOptions() {
-        FirefoxOptions options = new FirefoxOptions();
-        if (Boolean.parseBoolean(configProperties.getProperty("headlessExecution.switch")))
-            options.addArguments("--headless");
-
-        FirefoxProfile profile = new FirefoxProfile();
-        profile.setPreference("browser.download.folderList", 2);
-        profile.setPreference("browser.download.manager.showWhenStarting", false);
-        profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/pdf");
-        profile.setPreference("browser.download.viewableInternally.enabledTypes", "");
-        profile.setPreference("dom.webnotifications.enabled", false);
-        profile.setPreference("print.always_print_silent", true);
-        profile.setPreference("browser.download.alwaysOpenPanel", false);
-        profile.setPreference("services.sync.prefs.sync.browser.download.manager.showWhenStarting", false);
-        profile.setPreference("pdfjs.disabled", true);
-
-        options.setProfile(profile);
-
-        return options;
-    }
-
-    /**
-     * @return EdgeOptions object having different Edge Browser properties to manipulate.
-     */
-    protected EdgeOptions getEdgeOptions() {
-        EdgeOptions options = new EdgeOptions();
-
-        options.setCapability("disable-popup-blocking", true);
-        options.setCapability("browser.show_hub_popup_on_download_start", true);
-        options.setCapability("download.prompt_for_download", false);
-        options.setCapability("plugins.always_open_pdf_externally", true);
-        options.setCapability("download.extensions_to_open", "applications/pdf");
-        options.setCapability("download.prompt_for_download", false);
-
-        return options;
-    }
-
-    /**
-     * This method opens up Firelight Application landing page either in QA or QANext environment.
-     *
-     * @param driver      The WebDriver instance
-     * @param testContext The TestContext class reference
-     */
-    protected void openLoginPage(WebDriver driver, TestContext testContext) {
-
-        String url = configProperties.getProperty("QA.url");
-        System.out.println("URL = " + url);
-
-        if (configProperties.getProperty("browser").equalsIgnoreCase("Edge")) {
-            driver.get("edge://settings/content/pdfDocuments");
-
-            // Execute JavaScript to enable the option
-            ((JavascriptExecutor) driver).executeScript("document.querySelector('input[type=\"checkbox\"]').click();");
-        }
-        driver.get(url);
     }
 
     /**
@@ -298,46 +188,6 @@ public class BaseClass {
     }
 
     /**
-     * captureScreenshot.switch with value either true or false has been added. The value can be updated either from config.properties file or
-     * ADO pipeline. If set as true, then ONLY screenshots shall be captured.
-     *
-     * @param driver           The WebDriver reference
-     * @param testContext      The TestContext class reference
-     * @param appendTestStatus if parameter passed as true, then Test Case Status as Passed or Failed shall be appended to screenshot file name
-     *                         along with Timestamp. false should be passed to capture the screenshot at step level wherein Test Case Status
-     *                         is not required to append.
-     */
-    public void captureScreenshot(WebDriver driver, TestContext testContext, boolean appendTestStatus) {
-        if (testContext.getBrowser().equalsIgnoreCase(EnumsCommon.FIREFOXBROWSER.getText())) {
-            waitForPageToLoad(driver);
-        }
-
-        if (!Boolean.parseBoolean(testContext.getCaptureScreenshot()))
-            return;
-
-        try {
-            File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            String tcStatus = "";
-            if (appendTestStatus) {
-                tcStatus = "FAILED";
-                if (!testContext.getScenario().isFailed()) {
-                    tcStatus = "PASSED";
-                }
-            }
-
-            String fileName = truncateScenarioName(testContext.getScenario().getName()) + "_" + getDate("forFileName") + "_" + tcStatus;
-            File destination = new File(configProperties.get("screenshotFolder.path") + testContext.getScreenshotFolderName() + "/" + fileName + ".png");
-            FileUtils.copyFile(source, destination);
-        } catch (IOException e) {
-            Log.error("Copy File From Source To Destination Failed ", e);
-            throw new FLException("Copy File From Source To Destination Failed " + e.getMessage());
-        } catch (Exception e) {
-            Log.error("Screenshot Capture Failed ", e);
-            throw new FLException("Screenshot Capture Failed " + e.getMessage());
-        }
-    }
-
-    /**
      * This method truncates scenario name having long Scenario name in the feature file. Scenario name will be given to file name of screenshots
      * captured. Windows allows only 232 characters for file name, so truncate scenario name is required.
      *
@@ -394,27 +244,6 @@ public class BaseClass {
     }
 
     /**
-     * This method closes the browser instance at the end of test case execution. Also, it calls captureScreenshot method to capture the screenshot
-     * with test case execution status either Passed or Failed with timestamp.
-     *
-     * @param testContext The TestContext class reference
-     */
-    protected void closeBrowser(TestContext testContext) {
-        if (testContext.getScenario().isFailed()) {
-            final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-            testContext.getScenario().attach(screenshot, "image/png", "Screenshot on Failure");
-            Log.info("TEST CASE {} is FAILED", testContext.getTestCaseID());
-        } else {
-            if (testContext.getTestCaseID() != null)
-                Log.info("TEST CASE {} is PASSED", testContext.getTestCaseID());
-        }
-
-        // captureScreenshot(driver, testContext, true);
-        driver.quit();
-        System.out.println("Driver Quit Successfully");
-    }
-
-    /**
      * This method is waits till the webpage is completely loaded
      *
      * @param driver The WebDriver reference
@@ -431,67 +260,6 @@ public class BaseClass {
                     "return document.getElementsByClassName('" + loaderClassName + "').length;");
             return loaderCount == 0;
         });
-    }
-
-    protected boolean isAttributePresent(WebElement element, String attribute) {
-        try {
-            String value = element.getAttribute(attribute);
-            return value != null;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public void openMobileApp(String udid) {
-        DesiredCapabilities cap = getDesiredCapabilities(udid);
-
-        AppiumDriverLocalService service = new AppiumServiceBuilder().usingAnyFreePort().build();
-        service.start();
-        new TestContext().setService(service);
-        AndroidDriver androidDriver = new AndroidDriver(service.getUrl(), cap);
-        if (androidDriver.isDeviceLocked()) {
-            androidDriver.unlockDevice();
-        }
-        driver = androidDriver;
-        new TestContext().setMobDriver(driver);
-
-        System.out.println("driver not null");
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(Integer.parseInt(configProperties.getProperty("implicit_wait"))));
-        System.out.println("Application Started");
-    }
-
-    private static DesiredCapabilities getDesiredCapabilities(String udid) {
-        TestContext testContext = new TestContext();
-        File file = new File(configProperties.getProperty("appium:app"));
-        String absolutePath = file.getAbsolutePath();
-        DesiredCapabilities cap = new DesiredCapabilities();
-        cap.setCapability("udid", udid);
-        cap.setCapability("platformName", configProperties.getProperty("platformName"));
-        cap.setCapability("automationName", configProperties.getProperty("automationName"));
-        cap.setCapability("uiautomator2ServerInstallTimeout", 10000);
-        cap.setCapability("adbExecTimeout", 120000 /*Integer.parseInt(configProperties.getProperty("adbExecTimeout"))*/);
-        cap.setCapability("appium:app", absolutePath);
-        cap.setCapability("unicodeKeyboard", true);
-        cap.setCapability("resetKeyboard", true);
-        return cap;
-    }
-
-    private static DesiredCapabilities getDesiredCapabilities1() {
-        DesiredCapabilities cap = new DesiredCapabilities();
-        cap.setCapability("deviceName", "Shiba Shankar");
-        //cap.setCapability("deviceName","sdk gphone64_x86_64");
-        cap.setCapability("udid", "GYOVVS7DBIQ4WSEY");
-        //cap.setCapability("udid","emulator-5554");
-        cap.setCapability("platformName", "Android");
-        cap.setCapability("platformVersion", "14");
-        //cap.setCapability("platformVersion","15");
-        cap.setCapability("automationName", "uiAutomator2");
-        cap.setCapability("adbExecTimeout", 50000);
-        cap.setCapability("appium:app", "D:\\project\\NewFramework_Appium\\src\\test\\resources\\testdata\\App\\com.ecwid.android-6.2-APK4Fun.com.apk");
-
-
-        return cap;
     }
 
 }

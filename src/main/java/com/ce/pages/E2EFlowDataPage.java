@@ -48,7 +48,7 @@ public class E2EFlowDataPage extends FLUtilities {
         return excelValue;
     }
 
-    public void createForesightTestDataInterface(String excelFile) throws IOException, ParseException {
+    public void createTestDataInterface(String excelFile) throws IOException, ParseException {
         // Define the file path using a common absolute path and the provided Excel file name
         String filePath = EnumsCommon.ABSOLUTE_FILES_PATH.getText() + excelFile;
         boolean flag = true;
@@ -58,81 +58,74 @@ public class E2EFlowDataPage extends FLUtilities {
 
         List<String> testTypes = Arrays.asList(EnumsTestingTypes.ENUMSTESTINGTYPES.getText().split(", "));
         // Use try-with-resources to ensure the FileInputStream and XSSFWorkbook are closed properly
-         FileInputStream file = new FileInputStream(filePath);
-             XSSFWorkbook workbook = new XSSFWorkbook(file) ;
+        FileInputStream file = new FileInputStream(filePath);
+        XSSFWorkbook workbook = new XSSFWorkbook(file);
 
-            // Delete existing runner and feature files
-            deleteRunnerFeature(EnumsCommon.RUNNERFILESPATH.getText() + "TestCases/Suite1");
-            deleteRunnerFeature(EnumsCommon.RUNNERFILESPATH.getText() + "TestCases/Suite2");
-            deleteRunnerFeature(EnumsCommon.RUNNERFILESPATH.getText() + "TestCases");
-            deleteRunnerFeature(EnumsCommon.FEATUREFILESPATH.getText() + "TestCases");
-            File jsonFilePath = new File(testDataFile);
-            if (jsonFilePath.length() == 0)
-                flag = false;
+        // Delete existing runner and feature files
+        deleteRunnerFeature(EnumsCommon.RUNNERFILESPATH.getText() + "TestCases/Suite1");
+        deleteRunnerFeature(EnumsCommon.RUNNERFILESPATH.getText() + "TestCases/Suite2");
+        deleteRunnerFeature(EnumsCommon.RUNNERFILESPATH.getText() + "TestCases");
+        deleteRunnerFeature(EnumsCommon.FEATUREFILESPATH.getText() + "TestCases");
+        File jsonFilePath = new File(testDataFile);
+        if (jsonFilePath.length() == 0)
+            flag = false;
 
-            if (flag) {
-                obj = parser.parse(new FileReader(testDataFile));
-                jsonTestData = (JSONObject) obj;
-                jsonTestData = (JSONObject) jsonTestData.get("testData");
-            }
+        if (flag) {
+            obj = parser.parse(new FileReader(testDataFile));
+            jsonTestData = (JSONObject) obj;
+            jsonTestData = (JSONObject) jsonTestData.get("testData");
+        }
 
-            for (String testingType : testTypes) {
-                Sheet sheet = workbook.getSheet(testingType);
-                Iterator<Row> iterator = sheet.iterator();
+        for (String testingType : testTypes) {
+            Sheet sheet = workbook.getSheet(testingType);
+            Iterator<Row> iterator = sheet.iterator();
 
-                // Retrieve the header row
-                Row headerRow = iterator.next().getSheet().getRow(0);
+            // Retrieve the header row
+            Row headerRow = iterator.next().getSheet().getRow(0);
 
-                // Find the column indexes for specific headers in the header row
-                int suiteNameIndex = findColumnIndex(headerRow, "Suite Name");
-                int featureNameIndex = findColumnIndex(headerRow, "Feature Name");
-                int descriptionIndex = findColumnIndex(headerRow, "Description");
-                int scenarioIndex = findColumnIndex(headerRow, "Scenario");
-                int testCaseNameIndex = findColumnIndex(headerRow, "TestCaseName");
-                int testCaseSheetIndex = findColumnIndex(headerRow, "TestCaseSheet");
-                int executeIndex = findColumnIndex(headerRow, "Execute");
+            // Find the column indexes for specific headers in the header row
+            int suiteNameIndex = findColumnIndex(headerRow, "Suite Name");
+            int featureNameIndex = findColumnIndex(headerRow, "Feature Name");
+            int descriptionIndex = findColumnIndex(headerRow, "Description");
+            int scenarioIndex = findColumnIndex(headerRow, "Scenario");
+            int testCaseNameIndex = findColumnIndex(headerRow, "TestCaseName");
+            int testCaseSheetIndex = findColumnIndex(headerRow, "TestCaseSheet");
+            int executeIndex = findColumnIndex(headerRow, "Execute");
 
-                // Iterate through the rows of the sheet, starting from the second row
-                while (iterator.hasNext()) {
-                    String tagNames = "";
-                    Row currentRow = iterator.next();
-                    // Retrieve cell values from the current row based on the header indexes
-                    String suiteName = getCellValue(currentRow.getCell(suiteNameIndex));
-                    String featureName = getCellValue(currentRow.getCell(featureNameIndex));
-                    String description = getCellValue(currentRow.getCell(descriptionIndex));
-                    String scenario = getCellValue(currentRow.getCell(scenarioIndex));
-                    String testCaseName = getCellValue(currentRow.getCell(testCaseNameIndex));
-                    String testCaseSheet = getCellValue(currentRow.getCell(testCaseSheetIndex));
-                    String execute = getCellValue(currentRow.getCell(executeIndex));
+            // Iterate through the rows of the sheet, starting from the second row
+            while (iterator.hasNext()) {
+                String tagNames = "";
+                Row currentRow = iterator.next();
+                // Retrieve cell values from the current row based on the header indexes
+                String suiteName = getCellValue(currentRow.getCell(suiteNameIndex));
+                String featureName = getCellValue(currentRow.getCell(featureNameIndex));
+                String description = getCellValue(currentRow.getCell(descriptionIndex));
+                String scenario = getCellValue(currentRow.getCell(scenarioIndex));
+                String testCaseName = getCellValue(currentRow.getCell(testCaseNameIndex));
+                String testCaseSheet = getCellValue(currentRow.getCell(testCaseSheetIndex));
+                String execute = getCellValue(currentRow.getCell(executeIndex));
 
-                    // Check if the 'Execute' column value is 'yes'
-                    if (execute.equalsIgnoreCase("yes")) {
-                        createRunnerFile(suiteName, testingType, scenario);
-                        switch (testingType) {
-                            case "UI":
-                                createUIFeatureFile(featureName, description, scenario, testCaseName, testCaseSheet, testingType, jsonTestData);
-                                break;
-                        }
+                // Check if the 'Execute' column value is 'yes'
+                if (execute.equalsIgnoreCase("yes")) {
+                    createRunnerFile(suiteName, testingType, scenario);
+                    switch (testingType) {
+                        case "UI":
+                            createUIFeatureFile(featureName, description, scenario, testCaseName, testCaseSheet, testingType, jsonTestData);
+                            break;
                     }
                 }
             }
-            jsonObject.put("testData", jsonTestData);
-            FileWriter jsonTestData1 = new FileWriter(testDataFile);
-            BufferedWriter writer = new BufferedWriter(jsonTestData1);
-            writer.write(gson.toJson(jsonObject));
-            writer.close();
+        }
+        jsonObject.put("testData", jsonTestData);
+        FileWriter jsonTestData1 = new FileWriter(testDataFile);
+        BufferedWriter writer = new BufferedWriter(jsonTestData1);
+        writer.write(gson.toJson(jsonObject));
+        writer.close();
 
-            // Create a unique counter which will keep track of rerun count
-            createUniqueCounter("ForeSightTest");
-            // Create a RunnerBase which will keep track for testng.xml
-            createRunnerBase("ForeSightTest");
-//        } catch (IOException e) {
-//            // Handle exceptions related to file access
-//            throw new FLException("File is inaccessible: " + e.getMessage());
-//        } catch (Exception e) {
-//            // Handle any other exceptions that may occur
-//            throw new FLException("Reading Properties File Failed: " + e.getMessage());
-//        }
+        // Create a unique counter which will keep track of rerun count
+        createUniqueCounter("ForeSightTest");
+        // Create a RunnerBase which will keep track for testng.xml
+        createRunnerBase("ForeSightTest");
     }
 
     /**
@@ -148,37 +141,37 @@ public class E2EFlowDataPage extends FLUtilities {
         File tempFile = null;
         String line;
 
-            lines.add("Feature: " + featureName + "\n");
-            lines.add("\t" + description + "\n");
-            lines.add("\t@" + testingType + "-" + scenario);
-            lines.add("\tScenario: " + scenario + " - " + testCaseName);
-            lines.add("\t\tGiven User is on login page for TestCase \"" + testingType + "-" + scenario + "\"");
+        lines.add("Feature: " + featureName + "\n");
+        lines.add("\t" + description + "\n");
+        lines.add("\t@" + testingType + "-" + scenario);
+        lines.add("\tScenario: " + scenario + " - " + testCaseName);
+        lines.add("\t\tGiven User is on login page for TestCase \"" + testingType + "-" + scenario + "\"");
 
-            String filePath = EnumsCommon.ABSOLUTE_CLIENTFILES_PATH.getText() + testCaseSheet;
-            // Read excel file to create test data
-            FileInputStream file = new FileInputStream(filePath);
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+        String filePath = EnumsCommon.ABSOLUTE_CLIENTFILES_PATH.getText() + testCaseSheet;
+        // Read excel file to create test data
+        FileInputStream file = new FileInputStream(filePath);
+        XSSFWorkbook workbook = new XSSFWorkbook(file);
 
-            Sheet sheet = workbook.getSheet(scenario);
-            Iterator<Row> iterator = sheet.iterator();
+        Sheet sheet = workbook.getSheet(scenario);
+        Iterator<Row> iterator = sheet.iterator();
 
-            Row headerRow = iterator.next().getSheet().getRow(0);
+        Row headerRow = iterator.next().getSheet().getRow(0);
 
-            int stepsIndex = findColumnIndex(headerRow, "Steps");
-            int locatorTypeIndex = findColumnIndex(headerRow, "Locator Type");
-            int commonTagIndex = findColumnIndex(headerRow, "Common Tag");
-            int wizardControlTypesIndex = findColumnIndex(headerRow, "Wizard Control Types");
-            int testDataIndex = findColumnIndex(headerRow, "Test Data");
-            int attributeIndex = findColumnIndex(headerRow, "Attribute");
-            int fieldNameIndex = findColumnIndex(headerRow, "Field Name");
-            int fileNameIndex = findColumnIndex(headerRow, "File Name");
-            int stepsRangeIndex = findColumnIndex(headerRow, "Steps Range");
+        int stepsIndex = findColumnIndex(headerRow, "Steps");
+        int locatorTypeIndex = findColumnIndex(headerRow, "Locator Type");
+        int commonTagIndex = findColumnIndex(headerRow, "Common Tag");
+        int wizardControlTypesIndex = findColumnIndex(headerRow, "Wizard Control Types");
+        int testDataIndex = findColumnIndex(headerRow, "Test Data");
+        int attributeIndex = findColumnIndex(headerRow, "Attribute");
+        int fieldNameIndex = findColumnIndex(headerRow, "Field Name");
+        int fileNameIndex = findColumnIndex(headerRow, "File Name");
+        int stepsRangeIndex = findColumnIndex(headerRow, "Steps Range");
 
-            // Iterate through the rows of the sheet, starting from the second row
-            JSONObject tempJson = new JSONObject();
-            JSONObject tempReusableJson = new JSONObject();
-            int countReused = 1;
-
+        // Iterate through the rows of the sheet, starting from the second row
+        JSONObject tempJson = new JSONObject();
+        JSONObject tempReusableJson = new JSONObject();
+        int countReused = 1;
+        try {
             while (iterator.hasNext()) {
                 Row currentRow = iterator.next();
 
@@ -211,23 +204,18 @@ public class E2EFlowDataPage extends FLUtilities {
                 }
                 countReused++;
             }
-
-            tempFile = new File(EnumsCommon.FEATUREFILESPATH.getText() + "/TestCases/" + testingType + "-" + scenario + "_" + "Test.feature");
-            tempFile.getParentFile().mkdirs();
-            FileWriter featureFile = new FileWriter(tempFile);
-            BufferedWriter writer = new BufferedWriter(featureFile);
-            for (String line1 : lines)
-                writer.write(line1 + "\n");
-            writer.close();
-            System.out.println("Feature File Created");
-//            System.out.println("url = " + configProperties.getProperty("QA.url"));
-            updateJSON(jsonTestData, testingType, scenario, tempJson);
-//            masterJson.put(testingType + "-" + scenario, tempJson);
-//        } catch (IOException e) {
-//            throw new FLException("File is inaccessible" + e.getMessage());
-//        } catch (Exception e) {
-//            throw new FLException("Reading Properties File Failed" + e.getMessage());
-//        }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        tempFile = new File(EnumsCommon.FEATUREFILESPATH.getText() + "/TestCases/" + testingType + "-" + scenario + "_" + "Test.feature");
+        tempFile.getParentFile().mkdirs();
+        FileWriter featureFile = new FileWriter(tempFile);
+        BufferedWriter writer = new BufferedWriter(featureFile);
+        for (String line1 : lines)
+            writer.write(line1 + "\n");
+        writer.close();
+        System.out.println("Feature File Created");
+        updateJSON(jsonTestData, testingType, scenario, tempJson);
     }
 
     public void updateJSON(JSONObject jsonTestData, String testingType, String scenario, JSONObject tempJson) {
@@ -288,7 +276,7 @@ public class E2EFlowDataPage extends FLUtilities {
             case "Open notification on Mobile":
                 return "Then User " + steps;
             case "Verifies element in List":
-                return "Then User " + steps + " \""+ testData +"\" in \""+ fieldName + "\"" + " \"" + wizardControlTypes + "\" having \"" + locatorType + "\" \"" + commonTag + "\"";
+                return "Then User " + steps + " \"" + testData + "\" in \"" + fieldName + "\"" + " \"" + wizardControlTypes + "\" having \"" + locatorType + "\" \"" + commonTag + "\"";
             case "Create Reusable Method":
                 String reusableFile = EnumsCommon.REUSABLE_FILES_PATH.getText() + fileName + ".txt";
                 File file = new File(reusableFile);
@@ -323,6 +311,15 @@ public class E2EFlowDataPage extends FLUtilities {
                 return linesResult.toString();
             case "":
                 return "";
+            case "Scroll up":
+            case "Scroll down":
+            case "Scroll left":
+            case "Scroll right":
+                String[] starting = testData.split(",");
+                return "Then User " + steps + " by " + starting[2] + " from point x:" + starting[0] + " and y:"+starting[1];
+            case "Taps on":
+                String[] point = testData.split(",");
+                return "Then User " + steps + " Point " +" x:" + point[0] + " and y:"+point[1];
             default:
                 throw new FLException(steps + " Did not match");
 
@@ -338,7 +335,7 @@ public class E2EFlowDataPage extends FLUtilities {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(EnumsCommon.RUNNERFILESPATH.getText() + "RunOriginalTest.java"));
             while ((line = reader.readLine()) != null) {
-                if(!suiteName.isEmpty()) {
+                if (!suiteName.isEmpty()) {
                     line = line.replaceAll("com.ce.runner", "com.ce.runner.TestCases." + suiteName);
                 } else {
                     line = line.replaceAll("com.ce.runner", "com.ce.runner.TestCases");
@@ -348,7 +345,7 @@ public class E2EFlowDataPage extends FLUtilities {
                 lines.add(line);
             }
             reader.close();
-            File tempFile = new File(EnumsCommon.RUNNERFILESPATH.getText() + "TestCases/"+suiteName+"/" + testingType + "_" + scenario + "_" + "RunTest.java");
+            File tempFile = new File(EnumsCommon.RUNNERFILESPATH.getText() + "TestCases/" + suiteName + "/" + testingType + "_" + scenario + "_" + "RunTest.java");
             tempFile.getParentFile().mkdirs();
             FileWriter runnerFile = new FileWriter(tempFile);
             BufferedWriter writer = new BufferedWriter(runnerFile);

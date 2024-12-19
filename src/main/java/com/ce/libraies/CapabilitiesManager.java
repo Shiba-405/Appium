@@ -19,9 +19,6 @@ public class CapabilitiesManager {
 
         try{
             Log.info("getting capabilities");
-            System.out.println("giving caps");
-
-            System.out.println(udid+"====");
             File file = new File(configProperties.getProperty("appium:app"));
             String absolutePath = file.getAbsolutePath();
             DesiredCapabilities cap = new DesiredCapabilities();
@@ -35,17 +32,13 @@ public class CapabilitiesManager {
             cap.setCapability("appium:app", absolutePath);
             cap.setCapability("unicodeKeyboard", true);
             cap.setCapability("resetKeyboard", true);
-            cap.setCapability("appWaitDuration", 30000);
+            cap.setCapability("appWaitDuration", 50000);
             cap.setCapability("uiautomator2ServerLaunchTimeout", 60000); // e.g., 60 seconds
-            System.out.println("Platform from cap:"+configProperties.getProperty("platformName"));
-            System.out.println("UDID from cap:"+udid);
-
 
             return cap;
         } catch(Exception e){
             e.printStackTrace();
             Log.fatal("Failed to load capabilities. ABORT!!" + e.toString());
-            System.out.println("Failed to load capabilities. ABORT!!" + e.toString());
             throw e;
         }
     }

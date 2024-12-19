@@ -24,6 +24,6 @@ public class ExcelToJSONStepDefinitions {
      */
     @Given("Create test cases for eApp flow with interface file {string}")
     public void createForesightTestDataInterface(String excelFile) throws IOException, ParseException {
-        onE2EFlowDataPage.createForesightTestDataInterface(excelFile);
+        onE2EFlowDataPage.createTestDataInterface(excelFile);
     }
 }

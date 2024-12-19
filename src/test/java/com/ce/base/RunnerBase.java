@@ -27,9 +27,7 @@ public class RunnerBase extends AbstractTestNGCucumberTests {
     @Parameters({"udid", "deviceName"})
     @BeforeClass(alwaysRun = true)
     public void setUpClass(@Optional ("emulator-5554") String udid,@Optional ("emulator-5554") String deviceName) throws Exception {
-       // deviceSemaphore.acquire();
         ThreadContext.put("ROUTINGKEY", udid+ "_" + deviceName);
-        System.out.println("Test aa:"+udid+","+deviceName);
         TestContext testContext = new TestContext();
         testContext.setUdid(udid);
         testContext.setDeviceName(deviceName);
@@ -41,7 +39,6 @@ public class RunnerBase extends AbstractTestNGCucumberTests {
         setRunner(new TestNGCucumberRunner(this.getClass()));
     }
 
-   // @Test(dataProvider = "scenarios")
     @Test(groups = "cucumber", description = "Runs Cucumber Scenarios", dataProvider = "scenarios", retryAnalyzer = RetryAnalyzer.class)
     public void scenario(PickleWrapper pickle, FeatureWrapper cucumberFeature) throws Throwable {
         getRunner().runScenario(pickle.getPickle());
@@ -53,7 +50,6 @@ public class RunnerBase extends AbstractTestNGCucumberTests {
 
         TestNGCucumberRunner aa = getRunner();
         Object[][] scenarios = getRunner().provideScenarios();
-        System.out.println("Number of scenarios: " + scenarios.length);
         return getRunner().provideScenarios();
     }
 

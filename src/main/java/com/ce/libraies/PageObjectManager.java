@@ -15,7 +15,6 @@ public class PageObjectManager extends BaseClass {
 
     public E2EFlowDataPage getE2EFlowDataPage() {
         try {
-        //    return (onE2EFlowDataPage == null) ? onE2EFlowDataPage = new E2EFlowDataPage(driver) : onE2EFlowDataPage;
             return (onE2EFlowDataPage == null) ? onE2EFlowDataPage = new E2EFlowDataPage() : onE2EFlowDataPage;
         } catch (Exception e) {
             Log.error("Instance creations of E2EFlowDataPage Failed ", e);

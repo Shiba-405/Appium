@@ -26,13 +26,7 @@ public class DriverManager {
         if(driver == null){
             try{
                 Log.info("initializing Appium driver");
-                System.out.println("initializing Appium driver");
-
-
-                       // driver = new AndroidDriver(new ServerManager().getServer().getUrl(), new CapabilitiesManager().getCaps());
-                        driver = new AndroidDriver(new ServerManager().getServer().getUrl(), new CapabilitiesManager().getCaps(udid));
-
-
+                driver = new AndroidDriver(new ServerManager().getServer().getUrl(), new CapabilitiesManager().getCaps(udid));
                 if(driver == null){
                     throw new Exception("driver is null. ABORT!!!");
                 }
@@ -44,7 +38,6 @@ public class DriverManager {
                 throw e;
             }
         }
-
     }
 
 }

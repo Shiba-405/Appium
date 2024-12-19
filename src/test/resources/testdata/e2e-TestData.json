@@ -1,1 +1,51 @@
-{"testData":{"UI-smoke1":{"Jurisdiction":"Alabama","Continue with Email":"Butter@2024","Your Email Title":"Your email","Page Text":"Enter your business email address.","Username":"AUTOUser1_FLADEMO2_AUTO","Phone Number Field":"AUTOUser1_FLADEMO2_AUTO","Continue with Google":"Butter@2024","Title":"Create New Store","Password":"Butter@2024"},"UI-smoke2":{"Email":"testcodeelan@gmail.com","Slogan":"The Easiest Way To Order Products From This App !","Title":"eCommerce App","Menu":"Contact Us","Password":"Shiba#555"},"UI-ecom":{"Next Step":"Next Step","Your Email Title":"Your email","Email":"testcodeelan@gmail.com","Page Text":"Enter a password at least 6 characters long.","Title":"eCommerce App","Page Heading":"Sign In to Your Account","Name":"Shiba","Your Password Title":"Your password","Mobile Number":"8908272957","Create Account":"Create Account","Alert Heading":"We already have an account associated with this email","Alert Message":"You can sign in into your existing account or create a new one using another email","Slogan":"The Easiest Way To Order Products From This App !","Menu":"Contact Us","Password":"Shiba#55"},"UI-smoke":{"Jurisdiction":"Alabama","Continue with Email":"Butter@2024","Your Email Title":"Your email","Email":"testcodeelan@gmail.com","Page Text":"Enter your business email address.","Username":"AUTOUser1_FLADEMO2_AUTO","Slogan":"The Easiest Way To Order Products From This App !","Phone Number Field":"AUTOUser1_FLADEMO2_AUTO","Continue with Google":"Butter@2024","Title":"eCommerce App","Menu":"Contact Us","Password":"Shiba#55"},"UI-Ecom":{"Title":"Create New Store."},"API-Scenario1":{"11":{"headers":"sec-ch-ua=\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\" | sec-ch-ua-mobile=?0 | Accept=text\/html, *\/*; q=0.01 | X-Requested-With=XMLHttpRequest | sec-ch-ua-platform=\"Windows\" | Referer=https:\/\/uat.firelighteapp.com\/EGApp\/ | User-Agent=Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/127.0.0.0 Safari\/537.36","endpoint":"","field":"","auth":"","params":"","body":"","script":""},"1":{"headers":"sec-ch-ua=\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\" | sec-ch-ua-mobile=?0 | Upgrade-Insecure-Requests=1 | sec-ch-ua-platform=\"Windows\" | User-Agent=Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/127.0.0.0 Safari\/537.36","endpoint":"","field":"","auth":"","params":"","body":"","script":""},"2":{"headers":"sec-ch-ua=\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\" | sec-ch-ua-mobile=?0 | Accept=application\/json | sec-ch-ua-platform=\"Windows\" | Referer=https:\/\/automationintesting.online\/ | User-Agent=Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/127.0.0.0 Safari\/537.36","endpoint":"","field":"","auth":"","params":"","body":"","script":""},"APICounts":"3","3":{"headers":"sec-ch-ua=\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\" | sec-ch-ua-mobile=?0 | Accept=application\/json, text\/plain, *\/* | sec-ch-ua-platform=\"Windows\" | Referer=https:\/\/automationintesting.online\/ | User-Agent=Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/127.0.0.0 Safari\/537.36","endpoint":"","field":"","auth":"","params":"","body":"","script":""},"4":{"headers":"sec-ch-ua=\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\" | sec-ch-ua-mobile=?0 | Accept=application\/json | sec-ch-ua-platform=\"Windows\" | Referer=https:\/\/automationintesting.online\/ | User-Agent=Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/127.0.0.0 Safari\/537.36 | Content-Type=application\/json","endpoint":"","field":"","auth":"","params":"","body":"{\"name\":\"test\",\"email\":\"tet@te.com\",\"phone\":\"01234567890\",\"subject\":\"test to book a room\",\"description\":\"test to book a room and day and night\"}]","script":""},"5":{"headers":"sec-ch-ua=\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\" | sec-ch-ua-mobile=?0 | Accept=application\/json | sec-ch-ua-platform=\"Windows\" | Referer=https:\/\/automationintesting.online\/ | User-Agent=Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/127.0.0.0 Safari\/537.36","endpoint":"","field":"","auth":"","params":"","body":"","script":""},"6":{"headers":"sec-ch-ua=\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\" | sec-ch-ua-mobile=?0 | Accept=application\/json | sec-ch-ua-platform=\"Windows\" | Referer=https:\/\/automationintesting.online\/ | User-Agent=Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/127.0.0.0 Safari\/537.36 | Content-Type=application\/json","endpoint":"","field":"","auth":"","params":"","body":"{\"bookingdates\":{\"checkin\":\"\",\"checkout\":\"\"},\"depositpaid\":false,\"firstname\":\"test\",\"lastname\":\"last\",\"roomid\":1,\"email\":\"test@te.com\",\"phone\":\"01234567890\"}]","script":""},"7":{"headers":"sec-ch-ua=\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\" | X-ZCSRF-TOKEN=iamcsrcoo=61efe1c3-f4a8-4a4c-aaec-81565c346512 | sec-ch-ua-mobile=?0 | Accept=*\/* | X-Requested-With=XMLHttpRequest | sec-ch-ua-platform=\"Windows\" | User-Agent=Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/127.0.0.0 Safari\/537.36 | Referer=https:\/\/accounts.zoho.in\/signin?servicename=AaaServer&serviceurl=https%3A%2F%2Faccounts.zoho.com%2Fhome | Content-Type=application\/x-www-form-urlencoded;charset=UTF-8","endpoint":"","field":"","auth":"","params":"","body":"","script":""},"8":{"headers":"sec-ch-ua=\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\" | X-ZCSRF-TOKEN=iamcsrcoo=61efe1c3-f4a8-4a4c-aaec-81565c346512 | sec-ch-ua-mobile=?0 | sec-ch-ua-platform=\"Windows\" | Referer=https:\/\/accounts.zoho.in\/signin?servicename=AaaServer&serviceurl=https%3A%2F%2Faccounts.zoho.com%2Fhome | User-Agent=Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/127.0.0.0 Safari\/537.36 | Content-Type=application\/x-www-form-urlencoded;charset=UTF-8","endpoint":"","field":"","auth":"","params":"","body":"","script":""},"9":{"headers":"sec-ch-ua=\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\" | X-ZCSRF-TOKEN=iamcsrcoo=61efe1c3-f4a8-4a4c-aaec-81565c346512 | sec-ch-ua-mobile=?0 | sec-ch-ua-platform=\"Windows\" | Referer=https:\/\/accounts.zoho.in\/signin?servicename=AaaServer&serviceurl=https%3A%2F%2Faccounts.zoho.com%2Fhome | User-Agent=Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/127.0.0.0 Safari\/537.36 | Content-Type=application\/x-www-form-urlencoded;charset=UTF-8","endpoint":"","field":"","auth":"","params":"","body":"{\"passwordauth\":{\"password\":\"0-v1-hJoUs9giTQiAUCDGO60kj0SS89h8GfBw7sRHuLb8tfd+bJe8oGPz+\/9qfgCxXsmX7YYLKyOWg6e\/LlLCOmqcbHeWBKbaVWWsb5UR7lGj8suMmwvBLYS2of9czxOg+fSgsaJW\/ZFeOFG+PTuuGFY6z\/8jrGUG1XGQ+eMMaO\/Z7ZWOWtWUQbI0137klefyZyhbDVSJXQN9UziDXSPz1wCYXE7IewnQUUzAGz\/vaEwnPRd43w4LEgYesOri5DED7O240JEMVa0A1tqyr7uq05hQ7CWgMPLWotpZrj4bhX7b5rR0tZ1vW+k+z0GCfwP0vu4JQ41geUdQtJa2peVgMZHcXQ==-P1BJzFC7+wAaiE3MoS\/iya84JqhJKwgW\"}}]","script":""},"10":{"headers":"sec-ch-ua=\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\" | sec-ch-ua-mobile=?0 | Upgrade-Insecure-Requests=1 | sec-ch-ua-platform=\"Windows\" | Referer=https:\/\/accounts.zoho.in\/signin?servicename=AaaServer&serviceurl=https%3A%2F%2Faccounts.zoho.com%2Fhome | User-Agent=Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/127.0.0.0 Safari\/537.36","endpoint":"","field":"","auth":"","params":"","body":"","script":""}},"UI-Scenario1":{"input_Login_Password":"Password1@3","input_Restful-booker-platform demo_Subject":"test to book a room","input_Restful-booker-platform demo_Lastname":"last","input_Restful-booker-platform demo_Firstname":"test","input_Zoho Accounts_bethoven001@gmail.com":"bethoven001@gmail.com","input_Login_UserName":"ashwani_fil","input_Zoho Accounts_Chu$2507":"Chu$2507","input_Restful-booker-platform demo_Phone":"01234567890","input_Restful-booker-platform demo_Name":"test","input_Restful-booker-platform demo_Email":"test@te.com","textarea_Restful-booker-platform demo_Description":"Test to book a room and day and night"},"UI-ecom2":{"Title":"Create New Store"}}}
+{
+  "testData": {
+    "UI-smoke1": {
+      "Jurisdiction": "Alabama",
+      "Continue with Email": "Butter@2024",
+      "Your Email Title": "Your email",
+      "Page Text": "Enter your business email address.",
+      "Username": "AUTOUser1_FLADEMO2_AUTO",
+      "Phone Number Field": "AUTOUser1_FLADEMO2_AUTO",
+      "Continue with Google": "Butter@2024",
+      "Title": "Create New Store",
+      "Password": "Butter@2024"
+    },
+    "UI-smoke2": {
+      "Email": "testcodeelan@gmail.com",
+      "Slogan": "The Easiest Way To Order Products From This App !",
+      "Title": "eCommerce App",
+      "Menu": "Contact Us",
+      "Password": "Shiba#555"
+    },
+    "UI-E2E_1": {
+      "Content": "Shop by Categories"
+    },
+    "UI-smoke": {
+      "Jurisdiction": "Alabama",
+      "Continue with Email": "Butter@2024",
+      "Your Email Title": "Your email",
+      "Email": "testcodeelan@gmail.com",
+      "Page Text": "Enter your business email address.",
+      "Username": "AUTOUser1_FLADEMO2_AUTO",
+      "Slogan": "The Easiest Way To Order Products From This App !",
+      "Phone Number Field": "AUTOUser1_FLADEMO2_AUTO",
+      "Continue with Google": "Butter@2024",
+      "Title": "eCommerce App",
+      "Menu": "Contact Us",
+      "Password": "Shiba#55"
+    },
+    "UI-E2E_2": {
+      "Email \/ Mobile": "nandani.gajjar@codeelan.com",
+      "Content": "Shop by Categories",
+      "Password": "Nan*12345"
+    },
+    "UI-Ecom": {
+      "Title": "Create New Store."
+    },
+    "UI-E2E_3": {},
+    "UI-E2E_4": {
+      "Google Login": "Welcome to Chrome"
+    }
+  }
+}
